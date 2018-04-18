@@ -1,11 +1,16 @@
 package graphicaluserinterface1;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -22,13 +27,22 @@ public class MyApplication extends JFrame {
         JButton button = new JButton("Press Me");
 
         JPanel mainPanel = new JPanel(); // default layout is FlowLayout
-        mainPanel.add(button);
-       // mainPanel.add( this.display);
-
-        this.add(mainPanel);
+        mainPanel.setLayout(new GridLayout(5,3));
+        mainPanel.setBackground(Color.red);
+        
+        MyFirstActionListener actionListener = new MyFirstActionListener();
+        for (int i=0;i<15;i++)
+        {
+            JButton b = new JButton(i + 1 + "");
+            b.setFont( new Font("Serif",0,0));
+            mainPanel.add(b);
+            
+            b.addActionListener( actionListener );
+        }
+        
+        this.add(mainPanel, BorderLayout.CENTER);
         this.add(this.display, BorderLayout.SOUTH);
 
-        MyFirstActionListener actionListener = new MyFirstActionListener();
         button.addActionListener(actionListener);
         
         MyAmazingMouseMotionListener mml = new MyAmazingMouseMotionListener();
@@ -62,8 +76,7 @@ public class MyApplication extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            MyApplication.this.display.setText(String.format("Elmo says cutely (%d times) "
-                    + "stop tickling me!!", ++this.buttonPressedTimes));
+            MyApplication.this.display.setText(e.getActionCommand());
         }
 
     }
